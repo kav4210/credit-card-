@@ -44,6 +44,13 @@ python improve.py creditcard.csv                           # full improvement ex
 pytest tests                                               # handler tests, no download needed
 ```
 
+## Build the Lambda image
+`artifacts/` is gitignored, so run `train.py` first to create `artifacts/model.joblib` and `artifacts/threshold.json`.
+```
+docker build -t fraud-lambda .
+```
+The image uses Python 3.13 because the model is pickled with scikit-learn 1.9.1, which has no Python 3.12 wheel. `requirements-lambda.txt` pins the exact versions the model was trained with; a mismatched scikit-learn loads the pickle with an `InconsistentVersionWarning`. Use 2048 MB memory; at 1024 MB cold start exceeded the 10 s init limit.
+
 ## Cost-based threshold
 `train.py` also tunes the decision threshold under a 100-to-1 missed-fraud-to-false-alarm cost assumption (changeable with `--cost-fn` and `--cost-fp`). On the original single split this lifted recall from about 79% to 88%. That split holds only 99 frauds, so precision at the tuned threshold is unstable (62% on one run, 32% after de-duplication). Treat the threshold as an illustration of the method.
 
@@ -51,4 +58,4 @@ pytest tests                                               # handler tests, no d
 - Only 473 de-duplicated frauds: fold-to-fold PR-AUC spread (about 0.03) is larger than most model differences, so small gains are uncertain.
 - The features are anonymized PCA components, so there is no feature-level interpretation.
 - Two days of data from European cardholders in 2013; no claim about other settings.
-- **`handler.py` is an AWS Lambda handler that serves the random-forest model from `train.py`, tested locally (4 tests). It has not been deployed to a live Lambda, and it does not serve the LightGBM model from `improve.py`.**
+- **`handler.py` serves the random-forest model from `train.py`, not the LightGBM model from `improve.py`.** It was deployed once as a container-image AWS Lambda (Nov 2026), invoked with hand-built test vectors (not real transactions), then torn down; it is not running now. Results: warm latency 2 to 39 ms, about 253 MB used. At 1024 MB the first cold start hit Lambda's 10 s init limit; at 2048 MB the cold start was 3.3 s. Tested before deploying: 4 local tests, plus the same score from the image built on the Lambda base. There is no API Gateway or Function URL in front of it.
