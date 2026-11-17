@@ -1,0 +1,30 @@
+{
+  "best_model": "random_forest",
+  "test_pr_auc": 0.8751,
+  "test_roc_auc": 0.9771,
+  "fraud_rate_test": 0.00174,
+  "at_default_threshold_0.5": {
+    "threshold": 0.5,
+    "precision": 0.963,
+    "recall": 0.7879,
+    "tp": 78,
+    "fp": 3,
+    "fn": 21,
+    "tn": 56860,
+    "cost": 2103
+  },
+  "at_cost_tuned_threshold": {
+    "threshold": 0.05493209152652628,
+    "precision": 0.617,
+    "recall": 0.8788,
+    "tp": 87,
+    "fp": 54,
+    "fn": 12,
+    "tn": 56809,
+    "cost": 1254
+  },
+  "cost_assumptions": {
+    "missed_fraud": 100.0,
+    "false_alarm": 1.0
+  }
+}

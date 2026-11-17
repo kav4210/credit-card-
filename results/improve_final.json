@@ -1,0 +1,15 @@
+{
+  "best": "lgbm",
+  "test_pr_auc": 0.8288,
+  "test_ci": [
+    0.758,
+    0.895
+  ],
+  "base_test_pr_auc": 0.8119,
+  "gain_ci": [
+    0.003,
+    0.032
+  ],
+  "time_split_best": 0.786,
+  "time_split_base": 0.7884
+}

@@ -1,0 +1,20 @@
+{
+  "logistic_regression": {
+    "pr_auc_raw_mean": 0.7296,
+    "pr_auc_raw_std": 0.0254,
+    "pr_auc_with_log_mean": 0.73,
+    "pr_auc_with_log_std": 0.0254,
+    "lift_abs": 0.0005,
+    "lift_rel_pct": 0.1,
+    "folds_where_log_wins": "3/5"
+  },
+  "hist_gradient_boosting": {
+    "pr_auc_raw_mean": 0.7488,
+    "pr_auc_raw_std": 0.0297,
+    "pr_auc_with_log_mean": 0.7488,
+    "pr_auc_with_log_std": 0.0297,
+    "lift_abs": 0.0,
+    "lift_rel_pct": 0.0,
+    "folds_where_log_wins": "0/5"
+  }
+}

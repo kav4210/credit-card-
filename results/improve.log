@@ -1,0 +1,27 @@
+rows after dedup=283,726 frauds=473 base-rate=0.00167
+DEV 226,980 (378 fraud) | TEST 56,746 (95 fraud), locked
+CV lr_base            PR-AUC 0.7382 +/- 0.0263
+CV rf_base            PR-AUC 0.8345 +/- 0.0327
+CV hgb_base           PR-AUC 0.7486 +/- 0.0228
+CV hgb_tuned          PR-AUC 0.8386 +/- 0.0237
+CV hgb_tuned+hour     PR-AUC 0.8383 +/- 0.0233
+CV lgbm               PR-AUC 0.8538 +/- 0.0286
+CV lgbm+hour          PR-AUC 0.8501 +/- 0.0260
+CV lgbm_w24+hour      PR-AUC 0.8437 +/- 0.0250
+CV rf+hour            PR-AUC 0.8438 +/- 0.0323
+CV lr+hour+log        PR-AUC 0.7442 +/- 0.0280
+CV ens_lgbm+rf+hgb(+hour) PR-AUC 0.8495 +/- 0.0280
+CV ens_lgbm+rf(+hour) PR-AUC 0.8506 +/- 0.0302
+CV ens_lgbm+lr(+hour) PR-AUC 0.8421 +/- 0.0318
+
+BEST on CV: lgbm  mean 0.8538  vs original rf_base 0.8345
+paired fold gain over rf_base: mean +0.0193, wins 4/5, fold diffs [-0.0029, 0.0039, 0.0186, 0.0743, 0.0027]
+
+TEST (locked, 95 frauds)
+  original rf_base : PR-AUC 0.8119
+  improved lgbm: PR-AUC 0.8288  (95% CI 0.758 to 0.895), ROC-AUC 0.9788
+  paired bootstrap gain over rf_base: +0.0168  (95% CI +0.003 to +0.032)
+
+TIME SPLIT day1->day2 (201 frauds in day 2)
+  original rf_base : PR-AUC 0.7884
+  improved lgbm: PR-AUC 0.7860
